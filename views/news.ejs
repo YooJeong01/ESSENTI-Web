@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/news.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+</head>
+<body>
+    <nav>
+        <div class="sidebar-top">
+          <span class="shrink-btn">
+            <i class='bx bx-chevron-left'></i>
+          </span>
+          <img src="/images/logo_color_noText2.png" id="esentiLogo" onclick="reload()" class="logo" alt="">
+          <h3 class="hide">ESENTI</h3>
+        </div>
+    
+        <div class="sidebar-links">
+          <ul>
+            <div class="active-tab"></div>
+            <li class="tooltip-element" data-tooltip="0">
+              <a href="/dashboard" data-active="0">
+                <div class="icon">
+                  <i class='bx bx-tachometer'></i>
+                  <i class='bx bxs-tachometer'></i>
+                </div>
+                <span class="link hide">Dashboard</span>
+              </a>
+            </li>
+            <li class="tooltip-element" data-tooltip="1">
+              <a href="/news" class="active" data-active="1">
+                <div class="icon">
+                  <i class='bx bx-folder'></i>
+                  <i class='bx bxs-folder'></i>
+                </div>
+                <span class="link hide">Articles</span>
+              </a>
+            </li>
+            <div class="tooltip">
+              <span>Dashboard</span>
+              <span class="show">Articles</span>
+            </div>
+          </ul>
+    
+          <h4 class="hide">Shortcuts</h4>
+          <ul>
+            <li class="tooltip-element" data-tooltip="0">
+              <a href="/help" data-active="3">
+                <div class="icon">
+                  <i class='bx bx-help-circle'></i>
+                  <i class='bx bxs-help-circle'></i>
+                </div>
+                <span class="link hide">Help</span>
+              </a>
+            </li>
+            <li class="tooltip-element" data-tooltip="1">
+              <a href="/settings" data-active="4">
+                <div class="icon">
+                  <i class='bx bx-cog'></i>
+                  <i class='bx bxs-cog'></i>
+                </div>
+                <span class="link hide">Settings</span>
+              </a>
+            </li>
+            <div class="tooltip">
+              <span class="show">Help</span>
+              <span>Settings</span>
+            </div>
+          </ul>
+        </div>
+    
+        <div class="sidebar-footer">
+          <a href="/mypage" class="account tooltip-element" data-tooltip="0">
+            <i class='bx bx-user'></i>
+          </a>
+          <div class="admin-user tooltip-element" data-tooltip="1">
+            <div class="admin-profile hide">
+              <a class="profile" href="/mypage">
+                <img src="/uploads/<%= user.profilePicture || 'default.png' %>" alt="Profile Picture">
+                <div class="admin-info">
+                  <h5>Welcome !</h5>
+                  <h3><%= username %></h3> <!-- 사용자 이름을 표시 -->
+                </div>
+              </a>
+            </div>
+            <a href="/logout" class="log-out">
+              <i class='bx bx-log-out'></i>
+            </a>
+          </div>
+          <div class="tooltip">
+            <span class="show"><%= username %></span>
+            <span>Logout</span>
+          </div>
+        </div>
+    </nav>
+    <div class="outer">
+        <headNav>
+            <div class="head-nav container flex">
+                <div class="headnav-links">
+                    <ul class="flex">
+                        <li class="hover-link headnav-item" id="Positive" onclick="onNavItemClick('Positive')">Positive</li>
+                        <li class="hover-link headnav-item" id="Negative" onclick="onNavItemClick('Negative')">Negative</li>
+                        <li class="hover-link headnav-item" id="Neutral" onclick="onNavItemClick('Neutral')">Neutral</li>
+                    </ul>
+                </div>
+                <div class="search-bar">
+                    <input id="search-text" type="text" class="news-input" placeholder="e.g. 삼성전자" name="search">
+                    <button id="search-button" class="search-button">Search</button>
+                </div>
+            </div>
+        </headNav>
+        <main>
+            <!-- 검색 결과가 표시될 영역 -->
+            <div class="cards-container container flex" id="cards-container">
+                <!-- 검색 결과 카드가 여기에 추가될 예정 -->
+            </div>
+        </main>
+        <template id="template-news-card">
+            <div class="card">
+                <div class="card-header">
+                    <img src="images/placeholder.png" id="news-img">
+                </div>
+                <div class="card-content">
+                  <div class="card-content-header">
+                    <h3 id="news-sentimental">This is a sentimental about Article</h3>
+                    <i id="view-summary" class='bx bx-search' alt="view summary"></i>
+                  </div>
+                    <h3 id="news-title">This is the Title</h3>
+                    <h6 class="news-source" id="news-source">End gadget 2024.07.22</h6>
+                </div>
+                <!-- 기사 내용 요약(미리보기) -->
+                <div id="summaryPopup">
+                  <span id="indexSentimental">Sentimental</span>
+                  <div id="summaryWrapper">
+                    <p id="summaryHeader">기사 요약</p>
+                    <p id="summaryContent"></p>
+                  </div>
+                </div>
+                
+            </div>
+        </template>
+    </div>
+    <script src="/js/newsList.js"></script>
+    <script src="/js/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/sidebar.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</head>
+
+<body>
+  <nav>
+    <div class="sidebar-top">
+      <span class="shrink-btn">
+        <i class='bx bx-chevron-left'></i>
+      </span>
+      <img src="/images/logo_color_noText2.png" id="esentiLogo" class="logo" alt="">
+      <h3 class="hide">ESENTI</h3>
+    </div>
+
+    <div class="sidebar-links">
+      <ul>
+        <div class="active-tab"></div>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="/dashboard" class="active" data-active="0">
+            <div class="icon">
+              <i class='bx bx-tachometer'></i>
+              <i class='bx bxs-tachometer'></i>
+            </div>
+            <span class="link hide">Dashboard</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="/news" data-active="1">
+            <div class="icon">
+              <i class='bx bx-folder'></i>
+              <i class='bx bxs-folder'></i>
+            </div>
+            <span class="link hide">Articles</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Dashboard</span>
+          <span>Articles</span>
+        </div>
+      </ul>
+
+      <h4 class="hide">Shortcuts</h4>
+      <ul>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="/help" data-active="3">
+            <div class="icon">
+              <i class='bx bx-help-circle'></i>
+              <i class='bx bxs-help-circle'></i>
+            </div>
+            <span class="link hide">Help</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="/settings" data-active="4">
+            <div class="icon">
+              <i class='bx bx-cog'></i>
+              <i class='bx bxs-cog'></i>
+            </div>
+            <span class="link hide">Settings</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Help</span>
+          <span>Settings</span>
+        </div>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="/mypage" class="account tooltip-element" data-tooltip="0">
+        <i class='bx bx-user'></i>
+      </a>
+      <div class="admin-user tooltip-element" data-tooltip="1">
+        <div class="admin-profile hide">
+          <a class="profile" href="/mypage">
+            <img src="/uploads/<%= user.profilePicture || 'default.png' %>" alt="Profile Picture">
+            <div class="admin-info">
+              <h5>Welcome !</h5>
+              <h3><%= username %></h3> <!-- 사용자 이름을 표시 -->
+            </div>
+          </a>
+        </div>
+        <a href="/logout" class="log-out">
+          <i class='bx bx-log-out'></i>
+        </a>
+      </div>
+      <div class="tooltip">
+        <span class="show"><%= username %></span>
+        <span>Logout</span>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <h1>My Dashboard</h1>
+    <div class="search">
+      <i class='bx bx-search'></i>
+      <input type="text" class="hide" placeholder="Quick Search ...">
+    </div>
+    <!-- Sentimental graph -->
+    <div class="card">
+      <div class="chart-header">
+        <h2>Sentimental</h2>
+        <!-- <div class="pulse"></div> -->
+         
+        <!-- 여기 사용자 db에서 좋아요 누른 회사가 옵션에 올 수 있게 수정해야함 -->
+        <select id="companySelect">
+            <option value="samsung">삼성전자</option>
+            <option value="skhynix">SK 하이닉스</option>
+        </select>
+      </div>
+      <div class="chart-area">
+          <div class="grid"></div>
+      </div>
+    </div>
+
+    <!-- favorite company card slider -->
+    <div class="favCard">
+      <div class="favCardMain">
+        <div class="swiper mySwiper containerFav">
+          <div class="swiper-wrapper contentFav">
+
+            <% companies.forEach(function(company) { %>
+              <div class="swiper-slide cardFav">
+                <div class="cardFav-content">
+                  <div class="favImage">
+                    <img src="<%= company.company_logo %>" alt="<%= company.company_name %>">
+                  </div>
+                  <div class="company-name">
+                    <span class="companyName"><%= company.company_name %></span>
+                  </div>
+                  <div class="like-btn">
+                    <button class="favorite-icon-btn">
+                      <img class="likeImg" src="/images/heartEmpty.png" alt="<%= company.company_name %>">
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    
+    <p class="text">
+    </p>
+
+  <!-- 좋아요를 누른 회사가 없는 경우 공백 처리 -->
+  <% if (companiesWithArticles.length > 0) { %>
+    <div class="articleList">
+      <h1>Article</h1>
+      <% companiesWithArticles.forEach(company => { %>
+        <% if (company.articles && company.articles.length > 1) { %>
+          <div class="company-section">
+            <div class="companyHeader">
+              <div class="favCompanyImage">
+                <img src="<%= company.company_logo %>" alt="company logo">
+              </div>
+              <div class="favCompanyName"><%= company.company_name %></div>
+            </div>
+            <div class="companyArticles">
+              <% 
+                const shuffledArticles = company.articles.sort(() => Math.random() - 0.5);
+                const articlesToShow = shuffledArticles.slice(0, 2); 
+              %>
+              <% articlesToShow.forEach((article, index) => { %>
+                <div class="article article<%= index + 1 %>">
+                  <a href="<%= article.Url %>"><%= article.Title %></a>
+                  <p><%= article.Contents %></p>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <h3>관심 종목을 설정하고 해당 종목의 뉴스를 받아보세요!</h3>
+  <% } %>
+    <p class="copyright">
+      &copy; 2024 - <span>ESENTI</span> All Rights Reserved.
+    </p>
+  </main>
+<!-- 
+  <div class="lanking">
+    <div class="lankList">
+        <h2>Top 5 Investing</h2>
+        <ul>
+            <div>1 Samsung</div>
+            <div>2 Apple</div>
+            <div>3 Lotte Giants</div>
+            <div>4 KBO</div>
+            <div>5 Android</div>
+        </ul>
+    </div>
+  </div> -->
+  <script src="/js/nav.js"></script>
+
+<script>
+    // 서버에서 전달된 좋아요한 회사 목록
+    // EJS를 통해 likedCompanies 데이터를 클라이언트 측에서 사용
+    const likedCompanies = JSON.parse('<%- JSON.stringify(likedCompanies || []) %>'.replace(/'/g, "\\'"));
+    console.log(likedCompanies); // 데이터가 정상적으로 출력되는지 확인하기 위해 로그 출력
+
+    const companiesWithArticles = JSON.parse('<%- JSON.stringify(companiesWithArticles || []) %>'.replace(/'/g, "\\'"));
+    console.log(companiesWithArticles);
+    
+    // 사용자 이름을 JavaScript 변수로 설정
+    const userName = '<%= username %>';
+    console.log(userName); // 데이터가 정상적으로 출력되는지 확인하기 위해 로그 출력
+ </script>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+
+</html>

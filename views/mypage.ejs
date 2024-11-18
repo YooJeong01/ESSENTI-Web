@@ -1,0 +1,255 @@
+<!-- views/mypage.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/mypage.css">
+</head>
+<body>
+  <nav>
+    <div class="sidebar-top">
+      <span class="shrink-btn">
+        <i class='bx bx-chevron-left'></i>
+      </span>
+      <img src="/images/logo_color_noText2.png" id="esentiLogo" class="logo" alt="">
+      <h3 class="hide">ESENTI</h3>
+    </div>
+
+    <div class="sidebar-links">
+      <ul>
+        <div class="active-tab"></div>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="/dashboard" data-active="0">
+            <div class="icon">
+              <i class='bx bx-tachometer'></i>
+              <i class='bx bxs-tachometer'></i>
+            </div>
+            <span class="link hide">Dashboard</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="/news" data-active="1">
+            <div class="icon">
+              <i class='bx bx-folder'></i>
+              <i class='bx bxs-folder'></i>
+            </div>
+            <span class="link hide">Articles</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Dashboard</span>
+          <span>Articles</span>
+        </div>
+      </ul>
+
+      <h4 class="hide">Shortcuts</h4>
+      <ul>
+        <li class="tooltip-element" data-tooltip="0">
+          <a href="/help" data-active="3">
+            <div class="icon">
+              <i class='bx bx-help-circle'></i>
+              <i class='bx bxs-help-circle'></i>
+            </div>
+            <span class="link hide">Help</span>
+          </a>
+        </li>
+        <li class="tooltip-element" data-tooltip="1">
+          <a href="/settings" data-active="4">
+            <div class="icon">
+              <i class='bx bx-cog'></i>
+              <i class='bx bxs-cog'></i>
+            </div>
+            <span class="link hide">Settings</span>
+          </a>
+        </li>
+        <div class="tooltip">
+          <span class="show">Help</span>
+          <span>Settings</span>
+        </div>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="/mypage" class="account tooltip-element" data-tooltip="0">
+        <i class='bx bx-user'></i>
+      </a>
+      <div class="admin-user tooltip-element" data-tooltip="1">
+        <div class="admin-profile hide">
+          <a class="profile" href="/mypage">
+            <img src="/uploads/<%= user.profilePicture || 'default.png' %>" alt="Profile Picture">
+            <div class="admin-info">
+              <h5>Welcome !</h5>
+              <h3><%= username %></h3> <!-- 사용자 이름을 표시 -->
+            </div>
+          </a>
+        </div>
+        <a href="/logout" class="log-out">
+          <i class='bx bx-log-out'></i>
+        </a>
+      </div>
+      <div class="tooltip">
+        <span class="show"><%= username %></span>
+        <span>Logout</span>
+      </div>
+    </div>
+  </nav>
+    <div class="main">
+      <div class="header">
+        <h1>My Page</h1>
+        <h3>Welcome, <%= user ? user.name : 'Guest' %>!</h3>
+      </div>
+      <div class="section">
+        <div class="user-section">
+          <div class="profile">
+            <img id="profileImage" src="/uploads/<%= user ? user.profilePicture : 'default.png' %>" alt="Profile Picture" width="300" height="300" />
+            <!-- <img src="/uploads/<%= user ? user.profilePicture : 'default.png' %>" alt="Profile Picture" width="300" height="300" /> -->
+            <div class="user-info">
+              <div class="info-content">
+                <p class="name"><%= user ? user.name : 'N/A' %></p>
+                <p class="id"><%= user ? user.Id : 'N/A' %></p>
+                <p class="email"><%= user ? user.email : 'N/A' %></p>
+              </div>
+            </div>
+            <div class="uploadPicture">
+              <p>Upload Profile Picture</p>
+              <button type="button" id="upload">Upload</button>
+              <div id="uploadOptionPopup" class="uploadOptionPopup">
+                <div class="option">
+                  <button id="uploadBtn">Choose File</button>
+                  <button id="setDefaultBtn">Set Default Image</button>
+                  <button id="closePopup">Close</button>
+                </div>
+              </div>
+              <form action="/uploadProfilePicture" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <input type="file" id="input-file" name="profilePicture" accept="image/*" style="display: none;"/>
+                <button type="submit" style="display: none;">Upload</button> <!-- 폼 제출 버튼을 숨김 -->
+              </form>
+            </div>
+          </div>
+
+          <div class="favorite-company">
+            <p>Favorite Company List</p>
+            <div class="company-list" id="companyList"></div>
+          </div>
+        </div>
+        <div class="delete-section">
+          <p class="delete-title">Delete Account</p>
+          <p class="delete-caution1">You cannot sign up with the account that has ben deleted</p>
+          <p class="delete-caution2">Your account and data cannot be restored after deleting your account, 
+            so please proceed with caution</p>
+          <button class="delete-account-btn" id="deleteAccountBtn">Delete account</button>
+        </div>
+      </div>
+
+      <!-- 삭제하는지 확인하는 팝업 (처음에는 숨김) -->
+      <div id="confirmPopup" class="popup">
+        <div class="popup-content">
+          <p>Are you sure you want to delete your account?</p>
+          <button id="confirmDelete" class="popup-btn">Delete</button>
+          <button id="cancelDelete" class="popup-btn">Cancel</button>
+        </div>
+      </div>
+
+      <!-- </div>
+        <h1>Welcome, <%= user ? user.name : 'Guest' %>!</h1>
+        <p><strong>ID:</strong> <%= user ? user.id : 'N/A' %></p>
+        <p><strong>Email:</strong> <%= user ? user.email : 'N/A' %></p>
+        <img src="/uploads/<%= user ? user.profilePicture : 'default.png' %>" alt="Profile Picture" width="100" height="100" />
+
+        <h2>Upload Profile Picture</h2>
+        <form action="/uploadProfilePicture" method="POST" enctype="multipart/form-data">
+            <input type="file" name="profilePicture" accept="image/*" required />
+            <button type="submit">Upload</button>
+        </form>
+      </div> -->
+    <script src="/js/nav.js"></script>
+    <script src="/js/mypage.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const userId = '<%= user.Id %>';  // 현재 로그인한 사용자 ID를 EJS 템플릿에서 가져오기
+      
+          fetch(`/liked-companies/${userId}`)
+              .then(response => response.json())
+              .then(data => {
+                  const companyList = document.getElementById('companyList');
+                  if (data.length === 0) {
+                    const initialFavCompany = document.createElement('div');
+                    initialFavCompany.classList.add('initialMyPage');
+                    initialFavCompany.innerText = "Select the company you're interested in on the dashboard page!"
+                    companyList.appendChild(initialFavCompany);
+                  } else {
+                  // 받아온 데이터로 동적으로 HTML 생성
+                  data.forEach(company => {
+                      // company div 생성
+                      const companyDiv = document.createElement('div');
+                      companyDiv.classList.add('company');
+      
+                      // logo img 태그 생성
+                      const logoImg = document.createElement('img');
+                      logoImg.classList.add('company-logo');
+                      logoImg.src = company.company_logo;  // 로고 이미지 URL
+      
+                      // company name h2 태그 생성
+                      const companyName = document.createElement('h2');
+                      companyName.classList.add('company-name');
+                      companyName.innerText = company.company_name;  // 회사 이름
+      
+                      // 생성한 요소를 company div에 추가
+                      companyDiv.appendChild(logoImg);
+                      companyDiv.appendChild(companyName);
+      
+                      // company div를 company-list에 추가
+                      companyList.appendChild(companyDiv);
+                  });
+                }
+              })
+              .catch(error => {
+                  console.error('Error fetching company data:', error);
+              });
+      });
+      </script>
+    <script>
+      // 팝업을 띄우는 코드
+      const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+      const confirmPopup = document.getElementById('confirmPopup');
+      const confirmDelete = document.getElementById('confirmDelete');
+      const cancelDelete = document.getElementById('cancelDelete');
+
+      deleteAccountBtn.addEventListener('click', () => {
+        confirmPopup.style.display = 'flex'; // 팝업을 보이게 설정
+      });
+
+      cancelDelete.addEventListener('click', () => {
+        confirmPopup.style.display = 'none'; // 팝업을 숨김
+      });
+
+      // 계정 삭제 요청을 보내는 코드
+      confirmDelete.addEventListener('click', () => {
+        fetch('/delete-account', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userId: '<%= user.Id %>' }) // 현재 로그인한 사용자의 ID를 전송
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Your account has been deleted.');
+            window.location.href = '/logout'; // 로그아웃 후 다른 페이지로 리다이렉트
+          } else {
+            alert('Error deleting account.');
+          }
+        })
+        .catch(err => {
+          console.error('Error:', err);
+          alert('Error deleting account.');
+        });
+      });
+    </script>
+</body>
+</html>
