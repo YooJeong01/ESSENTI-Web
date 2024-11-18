@@ -1,0 +1,326 @@
+:root {
+  --bright: white;
+  --main-color-bright: #ebebeb;
+  --main-background-color: #dedede;
+  --main-color-dark: #545454f6;
+  --main-color-highlight: #f09000;
+  --text-color: #5f5f5f;
+  --font-family: "Poppins";
+  --main-LR-padding: 300px;
+  --main-TB-padding: 40px;
+  --main-section-title-color: #1f2027;
+  --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  background-color: var(--main-background-color);
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+}
+
+.active-tab {
+  top: 2.5px;
+}
+
+main {
+  flex: 1;
+  padding: var(--main-TB-padding) var(--main-LR-padding);
+  color: var(--main-section-title-color);
+  display: flex;
+  flex-direction: column;
+}
+
+main h1 {
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+main .copyright {
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+main .copyright span {
+  color: var(--main-color-highlight);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.search {
+  position: relative;
+  min-height: 2.7rem;
+  background-color: var(--main-color-highlight);
+  margin: 0px 0 20px 0;
+  display: grid;
+  grid-template-columns: 2.7rem 1fr;
+  align-items: center;
+  text-align: center;
+  border-radius: 22px;
+  cursor: pointer;
+}
+
+.search input {
+  height: 100%;
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--bright);
+  caret-color: var(--bright);
+  font-family: inherit;
+}
+
+.search input::placeholder {
+  color: var(--text-color);
+}
+
+/* 감정분석 결과 그래프 */
+.card {
+  width: 100%;
+  background: var(--bright);
+  padding: 30px;
+  border-radius: 35px;
+  margin: 0 0 10px 0;
+}
+
+.card h2{
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+}
+
+.card .chart-area{
+  position: relative;
+}
+
+body .apexcharts-tooltip.apexcharts-theme-light {
+  color: var(--color-text);
+  background: var(--bright);
+  backdrop-filter: blur(10px);
+  box-shadow: none;
+  padding: 8px 6px 4px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border: 0;
+}
+
+.apexcharts-tooltip-title,
+.apexcharts-zaxistooltip-bottom.apexcharts-theme-light {
+  display: none;
+}
+
+.chart-header {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+/* 드롭다운 메뉴 */
+#companySelect {
+  margin-bottom: 20px;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 관심 회사 설정하는 카드 슬라이더 */
+.swiper {
+  width: 1000px;
+}
+
+.favCard{
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: auto;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.favCardMain{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: auto;
+  width: 100%;
+  align-items: center;
+  justify-content:space-between;
+}
+
+.cardFav {
+  position: relative;
+  background: var(--bright);
+  border-radius: 20px;
+  height: 300px;
+  margin: 20px 0;
+  box-shadow:var(--box-shadow);
+}
+
+.cardFav::before{
+  content: "";
+  position: absolute;
+  height: 40%;
+  width: 100%;
+  background: var(--bright);
+  border-radius: 20px 20px 0 0;
+}
+
+.cardFav .cardFav-content{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  position: relative;
+  z-index: 100;
+}
+
+.favCard .cardFav .favImage{
+  height: 120px;
+  width: 120px;
+  border-radius: 20%;
+  padding: 3px;
+  background: var(--bright);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favCard .cardFav .favImage img{
+  height:auto;
+  width:100%;
+  object-fit: cover;
+  border: 3px solid var(--bright);
+}
+
+.cardFav .company-name{
+  height: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--main-section-title-color);
+} 
+
+.company-name .companyName{
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cardFav .like-btn{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cardFav .like-btn button{
+  background: var(--bright);
+  outline: none;
+  border: none;
+  color: var(--bright);
+  padding: 8px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.like-btn button img{
+  width: 25px;
+}
+
+.like-btn button:hover{
+  background: var(--main-color-bright);
+}
+
+.swiper-pagination{
+  position: relative;
+  top: 450px;
+}
+
+.swiper-pagination-bullet{
+  height: 7px;
+  width: 26px;
+  border-radius: 25px;
+  background: var(--bright);
+}
+
+/* 관심 회사의 랜덤한 뉴스가 노출되는 구역 */
+.articleList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.articleList h1 {
+  font-size: 36px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.articleList .company-section {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 0px 8px 0px;
+}
+
+.articleList .company-section .companyHeader {
+  width: 280px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: var(--bright);
+  border-radius: 40px;
+  padding: 10px;
+  margin-right: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--box-shadow);
+}
+
+.articleList .company-section .companyHeader img {
+  width: 100px;
+}
+
+.articleList .company-section .companyHeader .favCompanyName {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.articleList .company-section .companyArticles {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 40px;
+  align-items: left;
+}
+
+.articleList .company-section .companyArticles .article {
+  padding: 10px;
+} 
+
+.articleList .company-section .companyArticles .article a {
+  font-size: 20px;
+  text-decoration: none;
+  color:var(--text-color);
+  font-weight: 700;
+}
+
+.articleList .company-section .companyArticles .article p {
+  font-size: 14px;
+}
+
+.articleList .company-section .companyArticles .article a:hover {
+  color: var(--main-color-highlight);
+}

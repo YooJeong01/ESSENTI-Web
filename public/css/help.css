@@ -1,0 +1,43 @@
+:root {
+    --bright: white;
+    --main-color-bright: #ebebeb;
+    --main-background-color: #dedede;
+    --main-color-dark: #545454f6;
+    --main-color-highlight: #f09000;
+    --text-color: #5f5f5f;
+    --font-family: "Poppins";
+    --main-LR-padding: 300px;
+    --main-TB-padding: 40px;
+    --main-section-title-color: #1f2027;
+    --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+  
+body {
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+    background-color: var(--main-background-color);
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+}
+
+.active-tab {
+    top: 164px;
+}
+  
+main {
+    flex: 1;
+    padding: var(--main-TB-padding) var(--main-LR-padding);
+    color: var(--main-section-title-color);
+    display: flex;
+    flex-direction: column;
+}
+
+body.shrink .active-tab {
+    top : 127px;
+}
+
+body.shrink span.link {
+    opacity: 0;
+}
+  

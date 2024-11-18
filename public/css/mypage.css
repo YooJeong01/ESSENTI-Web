@@ -1,0 +1,368 @@
+:root {
+    --bright: white;
+    --main-color-bright: #ebebeb;
+    --main-color-dark: #545454f6;
+    --main-color-highlight: #f09000;
+    --text-color: #5f5f5f;
+    --font-family: "Poppins";
+    --main-LR-padding: 300px;
+    --main-TB-padding: 40px;
+    --main-section-title-color: #1f2027;
+    --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
+    /*headbar & content*/
+    --primary-text-color:rgb(68, 68, 68);
+    --secondary-text-color:rgb(158, 158, 158);
+    --accent-color:#f09000;
+    --accent-color-dark: #e46300;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.active-tab {
+    display: none;
+}
+
+.main {
+    flex: 1;
+    background-color:#ffffff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 3rem 5rem;
+}
+
+p {
+    font-family: "Roboto", sans-serif;
+    color: var(--secondary-text-color);
+    line-height: 1.4rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.hover-link {
+    cursor: pointer;
+}
+
+.hover-link:hover {
+    color: var(--secondary-text-color);
+}
+
+.shrink-btn {
+    z-index: 99;
+}
+
+.shrink-btn i{
+    z-index: 99;
+}
+
+.shrink-btn:hover {
+    z-index: 99;
+}
+
+.header {
+    margin-bottom: 1rem;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-color: #cfcfcf;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header h1{
+    margin-bottom: 1rem;
+    color: var(--main-section-title-color);
+    margin-left: 15px;
+}
+
+.header h3{
+    color: var(--main-section-title-color);
+    margin-top: 30px;
+    margin-right: 15px;
+}
+
+.section {
+    padding-top: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user-section {
+    display: flex;
+    justify-content: center;
+}
+
+.user-section .profile {
+    display: flex;
+    flex-direction: column;
+    margin-right: 3rem;
+}
+
+.user-section .profile img{
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #cfcfcf;
+}
+
+.user-section .profile .user-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.user-section .profile .info-content {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-section .profile .info-content .name {
+    font-weight: 800;
+    font-size: 28px;
+    color: black;
+}
+
+.user-section .profile .info-content .id, .email {
+    margin-top: 5px;
+    font-size: 22px;
+    color: #a9a9a9;
+}
+
+.user-section .profile .uploadPicture {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.user-section .profile .uploadPicture p {
+    border-bottom-style: solid;
+    border-bottom-width: 0.5px;
+    border-bottom-color: #a9a9a9;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+#uploadOptionPopup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+#upload {
+    margin-top: 10px;
+    width: fit-content;
+    cursor: pointer;
+    padding: 15px 30px;
+    background-color: var(--main-color-highlight);
+    color: var(--bright);
+    border: none;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+.option{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    background-color: var(--bright);
+    border-radius: 10px;
+}
+
+#uploadBtn:hover {
+    color: var(--main-color-highlight);
+}
+
+#setDefaultBtn:hover {
+    color: var(--main-color-highlight);
+}
+
+#closePopup:hover {
+    color: var(--main-color-highlight);
+}
+
+#uploadBtn{
+    cursor: pointer;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #cfcfcf;
+    color: rgb(0, 0, 0);
+    font-size: 22px;
+    padding: 20px 40px;
+    border: var(--bright);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+#setDefaultBtn{
+    cursor: pointer;
+    background-color: #cfcfcf;
+    color: rgb(0, 0, 0);
+    font-size: 22px;
+    padding: 20px 40px;
+    border: var(--bright);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+#closePopup{
+    cursor: pointer;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #cfcfcf;
+    color: rgb(0, 0, 0);
+    font-size: 22px;
+    padding: 20px 40px;
+    border: var(--bright);
+}
+
+.user-section .favorite-company {
+    display: flex;
+    flex-direction: column;
+}
+
+.favorite-company p {
+    color: black;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+
+}
+
+.favorite-company .company-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 700px;
+}
+
+.favorite-company .company-list .company {
+    margin-right: 1rem;
+    margin-top: 1rem;
+    border-color: #cfcfcf;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 22px;
+    background-color: var(--bright);
+    height: 200px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorite-company .company-list .company .company-logo {
+    width: 100px;
+}
+
+.favorite-company .company-list .company .company-name {
+    margin-top: 2rem;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.delete-section {
+    padding-top: 3rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.delete-section .delete-title {
+    font-size: 24px;
+    color: rgb(202, 0, 0);
+    padding-bottom: 15px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #cfcfcf;
+}
+
+.delete-section .delete-caution1 {
+    width: fit-content;
+    padding-top: 15px;
+}
+
+.delete-section .delete-caution2 {
+    width: fit-content;
+    padding-bottom: 15px;
+}
+
+.delete-section .delete-account-btn {
+    cursor: pointer;
+    width: 200px;
+    background-color: var(--bright);
+    border-color: #cfcfcf;
+    padding: 10px 30px;
+    border-width: 1px;
+    border-radius: 5px;
+    box-shadow:none;
+    color: rgb(202, 0, 0);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: var(--bright);
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.popup-content p {
+    color: black;
+    font-size: 22px;
+    padding: 20px;
+}
+
+.popup-btn {
+    cursor: pointer;
+    border: none;
+    background-color: var(--bright);
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+#confirmDelete {
+    color: red;
+}
+
+.initialMyPage {
+    font-size: 16px;
+}
