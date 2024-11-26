@@ -157,6 +157,10 @@ section {
     margin-bottom: 100px;
 }
 
+.dashboard-img2, .articles-img2, .mypage-img2, .settings-img2{
+    left: -150px;
+}
+
 .tab .row2{
     display: flex;
     flex-wrap: wrap;
@@ -191,7 +195,6 @@ section {
 .tab .img-card img{
     width: 100%;
     height: auto; /* 비율 유지하며 크기 조정 */
-    max-height: 100%; /* 부모 높이를 넘지 않음 */
 }
 
 .left-column {
@@ -221,6 +224,10 @@ section {
     font-size: 18px;
 }
 
+.articles-p2 {
+    width: 410px;
+}
+
 .info .unction {
     font-size: 2em;
 }
@@ -229,6 +236,9 @@ section {
     main {
         padding: 0px 100px;
 
+    }
+    .dashboard-img2, .articles-img2, .mypage-img2, .settings-img2{
+        left: 0px;
     }
     .tab .row1{
         flex-direction: column;
@@ -288,7 +298,9 @@ section {
         padding: 0px 50px;
 
     }
-
+    .dashboard-img2, .articles-img2, .mypage-img2, .settings-img2{
+        left: 0px;
+    }
     .tab .row1{
         flex-direction: column;
         justify-content: center;

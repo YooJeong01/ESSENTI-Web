@@ -11,6 +11,7 @@ html.dark {
     --box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     --main-section-title-color: #ffffff;
     --secondary-text-color:rgb(191, 191, 191);
+    --main-LR-padding: 200px;
 }
   
 body {
@@ -28,7 +29,7 @@ body {
   
 main {
     flex: 1;
-    padding: var(--main-TB-padding, 40px) var(--main-LR-padding, 200px);
+    padding: var(--main-TB-padding) var(--main-LR-padding);
     color: var(--main-section-title-color);
     display: flex;
     flex-direction: column;
