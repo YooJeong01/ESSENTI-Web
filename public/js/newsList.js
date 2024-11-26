@@ -11,7 +11,7 @@ async function fetchNews(sentiment = null) {
         const articles = await response.json();
         
         // sentiment 값에 따라 필터링
-        const filteredArticles = sentiment !== null ? articles.filter(article => article.sentiment === sentiment) : articles;
+        const filteredArticles = sentiment !== null ? articles.filter(article => article.Sentiment === sentiment) : articles;
         
         bindData(filteredArticles);
     } catch (error) {
@@ -56,20 +56,20 @@ function fillDataInCard(cardClone, article) {
     const summaryPopup = cardClone.querySelector('#summaryPopup');
 
     // sentiment 값에 따라 HTML 내용을 설정
-    switch (article.sentiment) {
-        case 0:
+    switch (article.Sentiment) {
+        case 'neutral':
             newsSentimental.innerHTML = "중립";
             newsSentimental.className = 'sentiment-neutral';
             newsIndexSentimental.className= 'indexNeutral';
             newsIndexSentimental.innerHTML = "Neutral";
             break;
-        case 1:
+        case 'negative':
             newsSentimental.innerHTML = "부정";
             newsSentimental.className = 'sentiment-negative';
             newsIndexSentimental.className= 'indexNegative';
             newsIndexSentimental.innerHTML = "Negative";
             break;
-        case 2:
+        case 'positive':
             newsSentimental.innerHTML = "긍정";
             newsSentimental.className = 'sentiment-positive';
             newsIndexSentimental.className= 'indexPositive';
@@ -86,11 +86,11 @@ function fillDataInCard(cardClone, article) {
     newsImg.onload = function() {
         if (!newsImg.src || newsImg.src === null || newsImg.src === undefined || newsImg.src === '') {
             // 이미지가 없을 경우 기본 이미지로 설정
-            newsImg.src = '/images/placeholder.png';  // 대체 이미지 경로
+            newsImg.src = '/images/essenti-removebg.png';  // 대체 이미지 경로
         }
     }
     newsImg.onerror = function() {
-        newsImg.src= '/images/placeholder.png';
+        newsImg.src= '/images/essenti-removebg.png';
     }
     newsTitle.innerHTML = article.Title;
 
@@ -125,13 +125,13 @@ function onNavItemClick(id) {
     let sentiment;
     switch (id) {
         case 'Positive':
-            sentiment = 2; // 긍정
+            sentiment = 'positive'; // 긍정
             break;
         case 'Negative':
-            sentiment = 1; // 부정
+            sentiment = 'negative'; // 부정
             break;
         case 'Neutral':
-            sentiment = 0; // 중립
+            sentiment = 'neutral'; // 중립
             break;
         default:
             sentiment = null; // 모든 기사

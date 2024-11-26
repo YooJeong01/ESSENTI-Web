@@ -1,9 +1,5 @@
 const mysql = require('mysql');
 const dbInfo = {
-    host: 'host',
-    user: 'user',
-    password: 'pw',
-    database: 'db',
     charset: 'utf8'
 }
 

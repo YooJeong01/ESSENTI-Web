@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="/images/favicon2.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/settings.css">
-    <script src="/js/settings.js"></script>
     <title>Settings</title>
 </head>
 <body>
@@ -15,8 +15,8 @@
           <span class="shrink-btn">
             <i class='bx bx-chevron-left'></i>
           </span>
-          <img src="/images/logo_color_noText2.png" id="esentiLogo" class="logo" alt="">
-          <h3 class="hide">ESENTI</h3>
+          <img src="/images/logo_color_noText2.png" id="essentiLogo" class="logo" alt="">
+          <h3 class="hide">ESSENTI</h3>
         </div>
     
         <div class="sidebar-links">
@@ -99,32 +99,32 @@
       </nav>
     <main>
         <div class="header">
-            <h1>Settings</h1>
+            <p>Settings</p>
         </div>
         <div class="section">
             <div class="theme">
                 <div class="ThemeInfo">
-                    <p>Choose how ESENTI looks to you. Select a single theme. Selections are apllied immediately and saved automatically.</p>
-                    <h3>Theme mode</h3>
+                    <p class="info">Choose how ESSENTI looks to you. Select a single theme.</p>
+                    <p class="info2">Selections are apllied immediately and saved automatically.</p>
+                    <p class="info3">ESSENTI를 어떻게 보고 싶은지 선택해주세요. 하나의 테마를 선택하면, 즉시 적용되며 자동으로 반영됩니다.</p>
+                    <p class="ThemeTitle">Theme mode</p>
                 </div>
                 <div class="select-theme">
                     <div class="light-theme">
-                        <button id="lightTheme" class="theme">Light Theme</button>
-                        <img src="" alt="This is a light mode">
+                        <p>Light Mode</p>
+                        <button id="lightTheme" class="theme"><img src="/images/sun.png" alt="This is a light mode"></button>
                     </div>
                     <div class="dark-theme">
-                        <button id="darkTheme" class="theme">Dark Theme</button>
-                        <img src="" alt="This is a dark mode">
+                        <p>Dark Mode</p>
+                        <button id="darkTheme" class="theme">
+                          <img class="dark-moon" src="/images/moon-color.png" alt="">
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="font">
-                <p>Font size preference</p>
-                <p>Choose the number of font size</p>
-                <button type=""></button>
             </div>
         </div>
     </main>
     <script src="/js/nav.js"></script>
+    <script src="/js/settings.js"></script>
 </body>
 </html>

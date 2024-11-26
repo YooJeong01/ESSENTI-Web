@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="/images/favicon2.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page</title>
@@ -15,8 +16,8 @@
       <span class="shrink-btn">
         <i class='bx bx-chevron-left'></i>
       </span>
-      <img src="/images/logo_color_noText2.png" id="esentiLogo" class="logo" alt="">
-      <h3 class="hide">ESENTI</h3>
+      <img src="/images/logo_color_noText2.png" id="essentiLogo" class="logo" alt="">
+      <h3 class="hide">ESSENTI</h3>
     </div>
 
     <div class="sidebar-links">
@@ -132,15 +133,22 @@
           </div>
 
           <div class="favorite-company">
-            <p>Favorite Company List</p>
+            <p class="fav-title">Favorite Company List</p>
             <div class="company-list" id="companyList"></div>
           </div>
         </div>
         <div class="delete-section">
           <p class="delete-title">Delete Account</p>
-          <p class="delete-caution1">You cannot sign up with the account that has ben deleted</p>
-          <p class="delete-caution2">Your account and data cannot be restored after deleting your account, 
-            so please proceed with caution</p>
+          <p class="delete-caution1">
+            You cannot sign up with the account that has ben deleted
+          </p>
+          <p class="delete-caution2">
+            Your account and data cannot be restored after deleting your account, 
+            so please proceed with caution
+          </p>
+          <p class="delete-caution3">
+            삭제 된 계정은 복구할 수 없으며, 삭제가 진행될 시 저장된 데이터가 모두 지워집니다. 주의하시기 바랍니다.
+          </p>
           <button class="delete-account-btn" id="deleteAccountBtn">Delete account</button>
         </div>
       </div>
@@ -148,26 +156,15 @@
       <!-- 삭제하는지 확인하는 팝업 (처음에는 숨김) -->
       <div id="confirmPopup" class="popup">
         <div class="popup-content">
-          <p>Are you sure you want to delete your account?</p>
+          <p class="popup-p1">Are you sure you want to delete your account?</p>
+          <p class="popup-p2">계정을 삭제하시겠습니까?</p>
           <button id="confirmDelete" class="popup-btn">Delete</button>
           <button id="cancelDelete" class="popup-btn">Cancel</button>
         </div>
       </div>
-
-      <!-- </div>
-        <h1>Welcome, <%= user ? user.name : 'Guest' %>!</h1>
-        <p><strong>ID:</strong> <%= user ? user.id : 'N/A' %></p>
-        <p><strong>Email:</strong> <%= user ? user.email : 'N/A' %></p>
-        <img src="/uploads/<%= user ? user.profilePicture : 'default.png' %>" alt="Profile Picture" width="100" height="100" />
-
-        <h2>Upload Profile Picture</h2>
-        <form action="/uploadProfilePicture" method="POST" enctype="multipart/form-data">
-            <input type="file" name="profilePicture" accept="image/*" required />
-            <button type="submit">Upload</button>
-        </form>
-      </div> -->
     <script src="/js/nav.js"></script>
     <script src="/js/mypage.js"></script>
+    <script src="/js/settings.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
           const userId = '<%= user.Id %>';  // 현재 로그인한 사용자 ID를 EJS 템플릿에서 가져오기
@@ -179,7 +176,10 @@
                   if (data.length === 0) {
                     const initialFavCompany = document.createElement('div');
                     initialFavCompany.classList.add('initialMyPage');
-                    initialFavCompany.innerText = "Select the company you're interested in on the dashboard page!"
+                    // initialFavCompany.innerText = "Select the company you're interested in on the dashboard page!"
+                    initialFavCompany.innerHTML = `<p class="initial-info">Select the company you're interested in on the dashboard page!</p>
+                    <p class="initial-info">대시보드에서 관심 종목을 설정해보세요!</p>
+                    `
                     companyList.appendChild(initialFavCompany);
                   } else {
                   // 받아온 데이터로 동적으로 HTML 생성

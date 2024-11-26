@@ -1,4 +1,4 @@
-const newsController = require('./newsController');  // newsController.js 가져오기
+const dbController = require('./dbController');  // dbController.js 가져오기
 
 
 // session을 한 번에 이용하기 위한 코드
@@ -13,22 +13,22 @@ const viewController = {
         const userId = user.Id;
         console.log("User ID: ", userId); // 디버깅을 위한 로그
 
-        // newsController에서 좋아요한 회사 목록을 가져오는 함수 호출
-        newsController.getLikedCompanies(userId, (err, likedCompanies) => {
+        // dbController에서 좋아요한 회사 목록을 가져오는 함수 호출
+        dbController.getLikedCompanies(userId, (err, likedCompanies) => {
             if (err) {
                 console.error(err);
                 return next(err);  // next로 오류 처리
             }
             
             // 좋아요한 회사 목록과 관련된 기사를 가져오는 함수 호출
-            newsController.getLikedCompaniesWithArticles(userId, likedCompanies, (err, companiesWithArticles) => {
+            dbController.getLikedCompaniesWithArticles(userId, likedCompanies, (err, companiesWithArticles) => {
                 if (err) {
                     console.error(err);
                     return next(err);
                 }
                 
                 // 전체 회사 목록 가져오기
-                newsController.getCompanies((err, companies) => {
+                dbController.getCompanies((err, companies) => {
                     if (err) {
                         console.error(err);
                         return next(err);
@@ -51,6 +51,12 @@ const viewController = {
     },
     registerPage: (req, res) => {
         res.render('login', { user: req.session.user || null });
+    },
+    forgotPasswordPage:(req, res) => {
+        res.render('forgot-password', {user: req.session.user || null});
+    },
+    resetPasswordPage: (req, res) => {
+        res.render('reset-password', {user: req.session.user || null});
     },
     helpPage: (req,res) => {
         res.render('help', {user: req.session.user || null});

@@ -12,11 +12,25 @@
     --main-color-bright: #ebebeb;
     --main-color-dark: #545454f6;
     --main-color-highlight: #f09000;
-    --text-color: #5f5f5f;
+    --side-text-color: #5f5f5f;
+    --font-family: "Poppins";
+    --main-LR-padding: 200px;
+    --main-TB-padding: 40px;
+    --main-section-title-color: #1f2027;
+    --main-background-color: #dedede;
+}
+
+html.dark {
+    --main-color-bright: #252525;
+    --main-color-dark: #545454f6;
+    --main-color-highlight: #f09000;
+    --side-text-color: #ffffff;
     --font-family: "Poppins";
     --main-LR-padding: 300px;
     --main-TB-padding: 40px;
-    --main-section-title-color: #1f2027;
+    --main-section-title-color: #ffffff;
+    --main-background-color: #161616;
+    --text-color : #545454f6;
 }
 
 a {
@@ -67,7 +81,7 @@ nav::before {
     padding-left: 0.5rem;
     font-weight: 600;
     font-size: 2rem;
-    color: var(--text-color);
+    color: var(--side-text-color);
 }
 
 .shrink-btn {
@@ -116,7 +130,7 @@ nav:hover .shrink-btn,
 }
 
 .sidebar-links a {
-    color: var(--text-color);
+    color: var(--side-text-color);
     font-weight: 400;
     font-size: 0.9rem;
     display: flex;
@@ -190,7 +204,7 @@ nav:hover .shrink-btn,
     text-transform: uppercase;
     font-weight: 600;
     padding: 0 0.8rem;
-    color: var(--text-color);
+    color: var(--side-text-color);
     letter-spacing: 0.5px;
     height: 45px;
     line-height: 45px;
@@ -207,7 +221,7 @@ nav:hover .shrink-btn,
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
-    color: var(--text-color);
+    color: var(--side-text-color);
     height: 53px;
     width: 3.7rem;
     opacity: 0;
@@ -245,7 +259,7 @@ nav:hover .shrink-btn,
 }
 
 .admin-info h3 {
-    color: var(--text-color);
+    color: var(--side-text-color);
     font-weight: 500;
     font-size: 1rem;
     line-height: 1;
@@ -254,7 +268,7 @@ nav:hover .shrink-btn,
 .admin-info h5 {
     font-weight: 400;
     font-size: 0.75rem;
-    color: var(--text-color);
+    color: var(--side-text-color);
     margin-top: 0.3rem;
     line-height: 1;
 }
@@ -264,7 +278,7 @@ nav:hover .shrink-btn,
     height: 40px;
     min-width: 2.4rem;
     background-color: var(--main-color-bright);
-    color: var(--text-color);
+    color: var(--side-text-color);
     align-items: center;
     justify-content: center;
     font-size: 1.15rem;

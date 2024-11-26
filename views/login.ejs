@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" href="/images/favicon2.ico">
     <link rel="stylesheet" href="/css/login.css"> <!-- 필요한 스타일 시트 링크 -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -11,12 +12,11 @@
     <header class="header">
         <div class="logo">
             <img src="/images/logo_white_noText.png" alt="">
-            <a href="#" class="logo-text">ESENTI</a>
+            <a href="#" class="logo-text">ESSENTI</a>
         </div>
         
-        <!-- <a href="#" class="logo">ESENTI</a> -->
+        <!-- <a href="#" class="logo">ESSENTI</a> -->
         <nav class="navbar">
-            <a href="#">Category1</a>
             <button class="btnLogin-popup">Login</button>
         </nav>
     </header>
@@ -37,7 +37,7 @@
 
     <section class="section">
         <div class="bg-img">
-            <img src="/images/logo_white.png" alt="Esenti">
+            <img src="/images/logo_white.png" alt="Essenti">
         </div>
         <div class="wrapper">
             <span class="icon-close">
@@ -62,12 +62,14 @@
                             <label for="password">Password</label>
                         </div>
                         <div class="remember-forgot">
-                            <label><input type="checkbox">Remember me</label>
-                            <a href="#">Forgot password?</a>
+                            <!-- <label><input type="checkbox">Remember me</label> -->
+                            <a href="/forgot-password">Forgot password?</a>
                         </div>
                         <button type="submit" class="btn loginbtn">Login</button>
                         <div class="logreg-link">
-                            <p>Don't have an account? <a href="#" class="register-link">Sign up here!</a></p>
+                            <p>Don't have an account? 
+                                <a href="#" class="register-link">Sign up here!</a>
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -101,7 +103,7 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="remember-forgot">
-                            <label><input type="checkbox">I agree to the terms & conditions</label>
+                            <!-- <label><input type="checkbox">I agree to the terms & conditions</label> -->
                         </div>
                         <button type="submit" class="btn registerbtn">Sign up</button>
                         <div class="logreg-link">
@@ -111,15 +113,16 @@
                 </div>
             </div>
 
-            <div class="media-options">
+            <!-- <div class="media-options">
                 <a href="#">
                     <i class='bx bxl-google'></i>
                     <span>Login with Google</span>
                 </a>
-            </div>
+            </div> -->
         </div>
     </section>
     <script src="/js/login.js"></script>
+    <script src="/js/settings.js"></script>
 
     <!-- <h1>Login</h1>
     <form action="/login" method="POST">

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="/images/favicon2.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News</title>
@@ -14,8 +15,8 @@
           <span class="shrink-btn">
             <i class='bx bx-chevron-left'></i>
           </span>
-          <img src="/images/logo_color_noText2.png" id="esentiLogo" onclick="reload()" class="logo" alt="">
-          <h3 class="hide">ESENTI</h3>
+          <img src="/images/logo_color_noText2.png" id="essentiLogo" onclick="reload()" class="logo" alt="">
+          <h3 class="hide">ESSENTI</h3>
         </div>
     
         <div class="sidebar-links">
@@ -121,7 +122,7 @@
         <template id="template-news-card">
             <div class="card">
                 <div class="card-header">
-                    <img src="images/placeholder.png" id="news-img">
+                    <img src="/images/essenti-removebg.png" style="background-color: rgb(226, 226, 226);" id="news-img">
                 </div>
                 <div class="card-content">
                   <div class="card-content-header">
@@ -133,7 +134,7 @@
                 </div>
                 <!-- 기사 내용 요약(미리보기) -->
                 <div id="summaryPopup">
-                  <span id="indexSentimental">Sentimental</span>
+                  <span id="indexSentimental">Sentiment</span>
                   <div id="summaryWrapper">
                     <p id="summaryHeader">기사 요약</p>
                     <p id="summaryContent"></p>
@@ -145,5 +146,6 @@
     </div>
     <script src="/js/newsList.js"></script>
     <script src="/js/nav.js"></script>
+    <script src="/js/settings.js"></script>
 </body>
 </html>

@@ -1,5 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
-  let primaryColor = getComputedStyle(document.documentElement)
+document.addEventListener("DOMContentLoaded", async function() {
+    const metaTag = document.querySelector('meta[name="user-id"]');
+
+    if (!metaTag) {
+        console.error("meta[name='user-id'] 태그가 존재하지 않습니다.");
+        return;
+    }
+  
+    let primaryColor = getComputedStyle(document.documentElement)
       .getPropertyValue("--main-color-highlight")
       .trim();
 
@@ -10,11 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
   let fontFamily = getComputedStyle(document.documentElement)
       .getPropertyValue("--font-family")
       .trim();
-
-  const companyData = {
-      samsung: [30, 45, 35, 50, 49, 60],
-      skhynix: [25, 30, 40, 60, 75, 80]
-  };
 
   const defaultOptions = {
       chart: {
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
       tooltip: {
           enabled: true,
           style: { fontFamily: fontFamily },
-          y: { formatter: (value) => `${value}k` }
+          y: { formatter: (value) => `${value}` }
       },
       colors: [primaryColor],
       fill: {
@@ -56,44 +58,69 @@ document.addEventListener("DOMContentLoaded", function() {
           labels: { show: true, floating: true, style: { colors: labelColor, fontFamily: fontFamily } },
           axisBorder: { show: false },
           crosshairs: { show: false },
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+          categories: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
       },
-  };
+    };
 
-  let chart;
+    let chart;
 
-  function renderChart(data) {
-      const options = {
-          ...defaultOptions,
-          series: [{ name: "Stocks", data: data }]
-      };
+    const userId = metaTag.content;
+    console.log("Request User ID: ", userId);
+     // 좋아요한 회사 및 월별 데이터 가져오기
+    async function fetchLikedCompaniesMonthly() {
+        try {
+            const response = await fetch(`/liked-companies-monthData/${userId}`);
+            if (!response.ok) throw new Error("데이터를 가져오지 못했습니다.");
+            return await response.json();
+        } catch (err) {
+            console.error(`데이터 가져오기 실패: ${err.message}`);
+            return null;
+        }
+    }
 
-      if (chart) {
-          chart.destroy(); // 기존 차트 제거
-      }
+    // 차트 렌더링
+    function renderChart(data) {
+        const options = {
+            ...defaultOptions,
+            series: [{ name: "Sentiment", data: data }]
+        };
 
-      chart = new ApexCharts(document.querySelector(".chart-area"), options);
-      chart.render().catch(err => console.error(`차트 렌더링 오류: ${err}`));
-  }
+        if (chart) {
+            chart.destroy(); // 기존 차트 제거
+        }
 
-  // 초기 차트 렌더링
-  renderChart(companyData.samsung); // 기본적으로 삼성전자 차트 렌더링
+        chart = new ApexCharts(document.querySelector(".chart-area"), options);
+        chart.render().catch(err => console.error(`차트 렌더링 오류: ${err}`));
+    }
 
-  // 드롭다운 선택 시 차트 업데이트
-  const selectElement = document.getElementById("companySelect");
-  selectElement.addEventListener("change", function() {
-      const selectedCompany = this.value;
-      const data = companyData[selectedCompany];
+    // 데이터 초기화
+    const companyData = await fetchLikedCompaniesMonthly();
 
-      // 데이터가 없으면 오류 메시지 출력
-      if (!data || !Array.isArray(data)) {
-          console.error(`데이터가 없습니다: ${selectedCompany}`);
-          return;
-      }
+    if (!companyData || companyData.length === 0) {
+        console.error("데이터가 비어 있습니다. 기본 데이터를 사용합니다.");
+        renderChart(Array(12).fill(0)); // 모든 월을 0으로 렌더링
+        return;
+    }
 
-      console.log(`선택한 회사: ${selectedCompany}, 데이터: ${data}`);
-      renderChart(data); // 회사에 맞는 데이터로 차트 업데이트
-  });
+    // 드롭다운에 회사 목록 추가
+    const selectElement = document.getElementById("companySelect");
+    companyData.forEach(company => {
+        const option = document.createElement("option");
+        option.value = company.company_name;
+        option.textContent = company.company_name;
+        selectElement.appendChild(option);
+    });
+
+    // 기본 회사 데이터 차트 렌더링
+    const defaultCompany = companyData[0];
+    selectElement.value = defaultCompany.company_name;
+    renderChart(defaultCompany.monthly_data);
+
+    // 선택된 회사 차트 업데이트
+    selectElement.addEventListener("change", function () {
+        const selectedCompany = companyData.find(company => company.company_name === this.value);
+        renderChart(selectedCompany ? selectedCompany.monthly_data : Array(12).fill(0));
+    });
 });
 
 // 카드 슬라이드
@@ -141,19 +168,54 @@ hearts.forEach(heart => {
     });
 });
 
+function updateSwiper(swiper) {
+    if (window.innerWidth <= 1120) {
+      swiper.params.slidesPerGroup = 3; // 화면이 1120px보다 작아지면 3으로 변경
+      swiper.params.slidesPerView = 3; // 필요하면 slidesPerView도 업데이트
+    } else {
+      swiper.params.slidesPerGroup = 5; // 기본 값으로 복구
+      swiper.params.slidesPerView = 5; // 필요하면 slidesPerView도 업데이트
+    }
+    swiper.update(); // Swiper 업데이트
+  }
+  
+  // 초기화
+  var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 5,
+    spaceBetween: 10,
+    slidesPerGroup: 5,
+    loop: true,
+    loopFillGroupWithBlank: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+  
+  // 초기 화면 크기에 따라 설정
+  updateSwiper(swiper);
+  
+  // 화면 크기 변경 시 업데이트
+  window.addEventListener("resize", () => {
+    updateSwiper(swiper);
+  });
 
-var swiper = new Swiper(".mySwiper", {
-  slidesPerView: 5,
-  spaceBetween: 10,
-  slidesPerGroup: 5,
-  loop: true,
-  loopFillGroupWithBlank: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
+// var swiper = new Swiper(".mySwiper", {
+//   slidesPerView: 5,
+//   spaceBetween: 10,
+//   slidesPerGroup: 5,
+//   loop: true,
+//   loopFillGroupWithBlank: true,
+//   pagination: {
+//     el: ".swiper-pagination",
+//     clickable: true,
+//   },
+//   navigation: {
+//     nextEl: ".swiper-button-next",
+//     prevEl: ".swiper-button-prev",
+//   },
+// });

@@ -89,7 +89,7 @@ main .copyright span {
   font-size: 25px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: var(--color-text);
+  color: var(--text-color);
 }
 
 .card .chart-area{
@@ -97,7 +97,7 @@ main .copyright span {
 }
 
 body .apexcharts-tooltip.apexcharts-theme-light {
-  color: var(--color-text);
+  color: var(--text-color);
   background: var(--bright);
   backdrop-filter: blur(10px);
   box-shadow: none;
@@ -150,7 +150,12 @@ body .apexcharts-tooltip.apexcharts-theme-light {
   height: auto;
   width: 100%;
   align-items: center;
-  justify-content:space-between;
+  justify-content:space-evenly;
+}
+
+.contentFav{
+  width: 100%;
+  padding: none;
 }
 
 .cardFav {
@@ -206,7 +211,7 @@ body .apexcharts-tooltip.apexcharts-theme-light {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: var(--main-section-title-color);
+  color: var(--text-color);
 } 
 
 .company-name .companyName{
@@ -294,6 +299,7 @@ body .apexcharts-tooltip.apexcharts-theme-light {
 .articleList .company-section .companyHeader .favCompanyName {
   font-weight: 600;
   font-size: 18px;
+  color: var(--text-color);
 }
 
 .articleList .company-section .companyArticles {
@@ -304,6 +310,7 @@ body .apexcharts-tooltip.apexcharts-theme-light {
   justify-content: center;
   border-radius: 40px;
   align-items: left;
+  color: var(--side-text-color);
 }
 
 .articleList .company-section .companyArticles .article {
@@ -313,7 +320,7 @@ body .apexcharts-tooltip.apexcharts-theme-light {
 .articleList .company-section .companyArticles .article a {
   font-size: 20px;
   text-decoration: none;
-  color:var(--text-color);
+  color:var(--side-text-color);
   font-weight: 700;
 }
 
@@ -323,4 +330,35 @@ body .apexcharts-tooltip.apexcharts-theme-light {
 
 .articleList .company-section .companyArticles .article a:hover {
   color: var(--main-color-highlight);
+}
+
+@media (max-width:1280px) {
+  main {
+    padding: var(--main-TB-padding) 100px;
+    width: 800px;
+  }
+}
+
+@media (max-width:1120px) {
+  main {
+    padding: var(--main-TB-padding) 50px;
+    width: 600px;
+  }
+
+  .swiper {
+    width: 600px;
+  }
+
+  .cardFav {
+    height: 200px;
+  }
+
+  .cardFav .company-name{
+    height: 30px;
+  } 
+  
+  .company-name .companyName{
+    font-size: 15px;
+    font-weight: 600;
+  }
 }

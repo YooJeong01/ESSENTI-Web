@@ -98,7 +98,7 @@
 }
 
 .section .bg-img img {
-  width: 40rem;
+  width: 30rem;
 }
 
 .wrapper {
@@ -227,7 +227,7 @@
   font-weight: 500;
   margin: -15px 0 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .remember-forgot label input {
@@ -266,11 +266,23 @@
   margin: 25px 0 15px;
 }
 
-.logreg-link p a {
+.logreg-link a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #fff;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+  border-radius: 40px;
   color: #fff;
   text-decoration: none;
-  font-weight: 600;
+  transition: .5s;
 }
+
+
 
 .logreg-link p a:hover {
   text-decoration: underline;

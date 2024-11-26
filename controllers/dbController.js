@@ -3,16 +3,41 @@ const bcrypt = require('bcryptjs');
 const path = require('path'); // path 모듈 추가
 const conn = dbConfig.init();
 dbConfig.connect(conn);
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 // 기사 목록 가져오기
 exports.getArticles = (req, res) => {
-    conn.query('SELECT Number, Press, Wdate, Url, Title, Contents, Image, sentiment, Summary FROM financial_news', (err, results) => {
+    conn.query('SELECT Number, Press, Wdate, Url, Title, Contents, Image, Sentiment, Summary FROM financial_news', (err, results) => {
         if (err) {
             return res.status(500).send(err);
         }
         res.json(results);
     });
 };
+
+// // 기사 목록 가져오기 (페이징 처리)
+// exports.getArticles = (req, res) => {
+//     // 페이지 번호와 한 페이지에 보여줄 항목 수를 쿼리 파라미터로 받음
+//     const { page = 1, limit = 20 } = req.query;
+//     const offset = (page - 1) * limit;  // 페이지네이션을 위한 오프셋 계산
+
+//     // SQL 쿼리문 수정: LIMIT과 OFFSET을 사용하여 결과를 제한
+//     const query = `
+//         SELECT Number, Press, Wdate, Url, Title, Contents, Image, Sentiment, Summary 
+//         FROM financial_news
+//         LIMIT ? OFFSET ?
+//     `;
+
+//     conn.query(query, [parseInt(limit), parseInt(offset)], (err, results) => {
+//         if (err) {
+//             return res.status(500).send(err);
+//         }
+
+//         // 결과를 클라이언트에 전달
+//         res.json(results);
+//     });
+// };
 
 // 검색 기능 추가
 exports.searchArticles = (req, res) => {
@@ -23,7 +48,7 @@ exports.searchArticles = (req, res) => {
     }
 
     const query = `
-        SELECT Number, Press, Wdate, Url, Title, Contents, Image, sentiment, Summary
+        SELECT Number, Press, Wdate, Url, Title, Contents, Image, Sentiment, Summary
         FROM financial_news
         WHERE Title LIKE ? OR Contents LIKE ?`;
 
@@ -121,6 +146,121 @@ exports.deleteAccount = (req, res) => {
     } else {
         return res.status(400).json({ success: false, message: 'Unauthorized action' });
     }
+};
+
+// 비밀번호 찾기 요청 처리
+exports.forgotPassword = (req, res) => {
+    const { email } = req.body;
+
+    conn.query('SELECT * FROM user WHERE Email = ?', [email], (err, results) => {
+        if (err) {
+            return res.status(500).render('forgot-password', { 
+                errorMessage: 'Internal server error', 
+                successMessage: null 
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).render('forgot-password', { 
+                errorMessage: 'Email not found', 
+                successMessage: null 
+            });
+        }
+
+        const user = results[0];
+        const token = crypto.randomBytes(20).toString('hex');
+        const expiry = Date.now() + 3600000; // 1시간 유효
+
+        conn.query('UPDATE user SET reset_token = ?, reset_token_expiry = ? WHERE Id = ?', 
+            [token, expiry, user.Id], (err) => {
+                if (err) {
+                    return res.status(500).render('forgot-password', { 
+                        errorMessage: 'Error generating reset token', 
+                        successMessage: null 
+                    });
+                }
+
+                const resetLink = `${req.protocol}://${req.get('host')}/reset-password/${token}`;
+                exports.sendEmail(user.Email, 'Password Reset Request', `
+                    <p>Hello ${user.Name},</p>
+                    <p>You requested a password reset. Click the link below to reset your password:</p>
+                    <a href="${resetLink}">${resetLink}</a>
+                    <p>If you didn't request this, you can safely ignore this email.</p>
+                `);
+
+                res.render('forgot-password', { 
+                    errorMessage: null, 
+                    successMessage: 'Password reset email sent. Please check your email.' 
+                });
+            });
+    });
+};
+
+// 비밀번호 재설정 페이지 처리
+exports.resetPasswordPage = (req, res) => {
+    const token = req.params.token;
+
+    conn.query('SELECT * FROM user WHERE reset_token = ? AND reset_token_expiry > ?', 
+        [token, Date.now()], (err, results) => {
+            if (err || results.length === 0) {
+                return res.status(400).send('Invalid or expired token');
+            }
+
+            res.render('reset-password', { token });
+        });
+};
+
+// 비밀번호 재설정 요청 처리
+exports.resetPassword = (req, res) => {
+    const { password } = req.body;
+    const token = req.params.token;
+
+    conn.query('SELECT * FROM user WHERE reset_token = ? AND reset_token_expiry > ?', 
+        [token, Date.now()], (err, results) => {
+            if (err || results.length === 0) {
+                return res.status(400).send('Invalid or expired token');
+            }
+
+            const user = results[0];
+
+            bcrypt.hash(password, 10, (err, hash) => {
+                if (err) {
+                    return res.status(500).send('Error resetting password');
+                }
+
+                conn.query('UPDATE user SET Password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE Id = ?', 
+                    [hash, user.Id], (err) => {
+                        if (err) {
+                            return res.status(500).send('Error updating password');
+                        }
+
+                        res.redirect('/login');
+                    });
+            });
+        });
+};
+
+// 이메일 전송 함수
+exports.sendEmail = (to, subject, html) => {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL_USER, // 환경 변수 사용
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        html
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) console.error('Error sending email:', err);
+        else console.log('Email sent:', info.response);
+    });
 };
 
 // 회사 목록 가져오기
@@ -290,10 +430,7 @@ exports.getLikedCompaniesWithArticles = (userId, companies, callback) => {
 
              // row.Contents가 null 또는 undefined인 경우 기본값으로 빈 문자열 처리
              const contentText = row.Contents !== null && row.Contents !== undefined ? row.Contents.toString() : '';
-            
-             // 디버깅: 자르기 전에 내용을 출력
-             console.log("Original Content:", contentText);
-
+           
             const articleExists = company.articles.some(article => article.Title === row.Title);
             if (!articleExists) {
                 company.articles.push({
@@ -303,55 +440,9 @@ exports.getLikedCompaniesWithArticles = (userId, companies, callback) => {
                     Contents: row.Contents && row.Contents.length > 160 ? row.Contents.substring(0, 160) + '...' : contentText
                 });
             }
-            // 디버깅: 자른 후 내용을 출력
-            console.log("Trimmed Content:", company.articles[company.articles.length - 1].Contents);
         });
-
-        console.log("Companies with Articles: ", companiesWithArticles);
         callback(null, companiesWithArticles);
     });
-
-    // const query = 'SELECT c.company_name, c.company_logo, f.Title, f.Url, f.Contents ' +
-    //               'FROM `like` l ' +
-    //               'JOIN company c ON c.company_name = l.company_name ' +
-    //               'LEFT JOIN financial_news f ON (f.Title LIKE CONCAT("%", c.company_name, "%") ' + 
-    //               'OR f.Contents LIKE CONCAT("%", c.company_name, "%")) ' + // 회사명 또는 Contents에 포함된 기사 검색
-    //               'WHERE l.user_id = ? AND l.company_name IN (?)';  // 현재 접속한 유저에 대한 조건 및 여러 회사명 조건
-
-    // // 여기에 유의: companies 변수를 배열로 전달
-    // conn.query(query, [userId, companies], (err, results) => {
-    //     if (err) {
-    //         console.error("Database query error: ", err);
-    //         return callback(err, null);
-    //     }
-
-    //     // 데이터 처리: 회사별로 기사 배열을 묶기
-    //     const companiesWithArticles = [];
-    //     results.forEach(row => {
-    //         let company = companiesWithArticles.find(c => c.company_name === row.company_name);
-
-    //         if (!company) {
-    //             company = {
-    //                 company_name: row.company_name,
-    //                 company_logo: row.company_logo,
-    //                 articles: []
-    //             };
-    //             companiesWithArticles.push(company);
-    //         }
-
-    //         const articleExists = company.articles.some(article => article.Title === row.Title);
-    //         if (!articleExists) {
-    //             company.articles.push({
-    //                 Title: row.Title,
-    //                 Url: row.Url,
-    //                 Contents: row.Contents
-    //             });
-    //         }
-    //     });
-
-    //     console.log("Companies with Articles: ", companiesWithArticles);
-    //     callback(null, companiesWithArticles);
-    // });
 };
 
 
@@ -393,5 +484,51 @@ exports.renderDashboard = (req, res) => {
         }
         console.log("Rendering dashboard with liked companies: ", likedCompanies); // 디버깅을 위한 로그
         res.render('dashboard', { likedCompanies });
+    });
+};
+
+// 좋아요를 누른 회사 목록을 가져온 후 회사의 월별 sentiment값을 조회하는 함수
+exports.getMonthlySentiment = (userId, callback) => {
+    // 좋아요를 누른 회사 목록 조회
+    exports.getLikedCompanies(userId, (err, likedCompanies) => {
+        if (err) {
+            return callback(err, null); // 오류 처리
+        }
+
+        if (likedCompanies.length === 0) {
+            // 좋아요를 누른 회사가 없을 경우 빈 데이터를 반환
+            const defaultData = [{
+                company_name: "관심 종목을 설정해주세요",
+                monthly_data: Array(12).fill(0) // 12개월 동안 sentiment 값 0
+            }];
+            return callback(null, defaultData);
+        }
+
+        // 좋아요 누른 회사의 월별 sentiment 데이터 조회
+        const query = `
+            SELECT company_name, month, month_sentiment 
+            FROM monthly_sentiment 
+            WHERE company_name IN (?) 
+            ORDER BY company_name, month ASC
+        `;
+
+        conn.query(query, [likedCompanies], (err, monthlyData) => {
+            if (err) {
+                console.error("Database query failed:", err.message);
+                return callback(err, null);
+            }
+
+            // 데이터 형식 정리
+            const result = likedCompanies.map(companyName => {
+                const companyMonthlyData = monthlyData.filter(data => data.company_name === companyName);
+                const monthlyDataFormatted = Array(12).fill(0); // 1월부터 12월 기본값 0
+                companyMonthlyData.forEach(data => {
+                    monthlyDataFormatted[data.month - 1] = data.month_sentiment;
+                });
+                return { company_name: companyName, monthly_data: monthlyDataFormatted };
+            });
+
+            callback(null, result);
+        });
     });
 };
