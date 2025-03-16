@@ -1,11 +1,18 @@
 <h2>Key Features</h2>
 
 <h3> 실행 영상 </h3>
+<h4>Register & Login</h4>
 <img src="https://github.com/user-attachments/assets/f8064be6-2dd0-466a-9ff0-8a23e3fae642">
+<h4>Dashboard</h4>
 <img src="https://github.com/user-attachments/assets/c2695f4e-a7cd-488a-8eb1-5b12ac6180a9">
+<h4>Article Summary Preview</h4>
 <img src="https://github.com/user-attachments/assets/fad2a548-b51f-45d3-8b8e-0773df8250bf">
+<h4>Article Classification by Category</h4>
 <img src="https://github.com/user-attachments/assets/5764c957-b7a8-4df1-9dc4-e2f7c646eaa2">
+<h4>Search Article & Mypage</h4>
 <img src="https://github.com/user-attachments/assets/aed95eba-2011-437e-986b-2c4458514494">
+<h4>Setting & Help</h4>
+<img src="https://github.com/user-attachments/assets/532ff865-b545-4562-9281-25d0e917ca70">
 
 <h3>🌐 실제 시장 감정 분석 (Real-Time Sentiment Analysis) </h3>
 <p>금융 뉴스 기사들의 감정을 긍정, 부정, 중립으로 분석합니다.
